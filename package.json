@@ -1,0 +1,33 @@
+{
+	"dependencies": {
+		"koa": "^2.14.1"
+	},
+	"name": "school",
+	"description": "",
+	"version": "1.0.0",
+	"main": "index.js",
+	"devDependencies": {
+		"prisma": "^4.10.1"
+	},
+	"scripts": {
+		"test": "npm test",
+		"dev": "nodemon index.js",
+		"start": "node index.js",
+		"db:push": "npx prisma db push",
+		"db:build": "prisma generate && prisma migrate deploy",
+		"lint:fix": "npx prettier --write .",
+		"prepare": "husky install",
+		"prisma:format": "npx prisma format"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/juliusshrestha/school_red_rose.git"
+	},
+	"author": "",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/juliusshrestha/school_red_rose/issues"
+	},
+	"homepage": "https://github.com/juliusshrestha/school_red_rose#readme",
+	"keywords": []
+}

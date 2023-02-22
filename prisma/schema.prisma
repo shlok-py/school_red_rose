@@ -1,0 +1,39 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  CLOSED
+}
+
+model tblUser {
+  userId        String         @id @unique @db.VarChar(36)
+  firstName     String?        @db.VarChar(100)
+  middleName    String?        @db.VarChar(100)
+  lastName      String?        @db.VarChar(100)
+  phone         String?        @unique @db.VarChar(10)
+  countryCode   Int?           @db.Int
+  userStatus    UserStatus     @default(ACTIVE)
+  tblCredential tblCredential?
+}
+
+model tblCredential {
+  credId    Int      @id @default(autoincrement())
+  user      tblUser  @relation(fields: [userId], references: [userId])
+  userId    String   @unique @db.VarChar(36)
+  email     String   @unique @db.VarChar(100)
+  password  String?  @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
