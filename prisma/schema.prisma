@@ -37,3 +37,23 @@ model tblCredential {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+enum ComponentCategory {
+  NEWS
+  NOTICE
+  GALLERY
+  EVENT
+  DOWNLOAD
+}
+
+model tblComp {
+  compId       Int               @id @default(autoincrement())
+  compCategory ComponentCategory
+  title        String?           @db.VarChar(255)
+  desc         String?           @db.VarChar(255)
+  fileNames   String?           @db.VarChar(255)
+  details     String?           @db.LongText        
+  popUp       Boolean
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+}
