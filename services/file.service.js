@@ -2,6 +2,7 @@ const multer = require("koa-multer");
 const { PrismaClient } = require("@prisma/client");
 require("dotenv").config();
 const prisma = new PrismaClient();
+
 /**
  * upload and updates file name of the image
  * @param {{compId: Number}} whereKey
