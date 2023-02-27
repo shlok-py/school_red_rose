@@ -44,15 +44,24 @@ async function fetchComponentDetails(ctx, next) {
  */
 async function createComponent(ctx, next) {
 	try {
-		console.log(ctx.request);
+		//console.log(ctx.request);
 		const createDetails = ctx.request.body;
 		const files = ctx.request.files;
-		const fileNames = files.map((file) => file.filename);
+		const text = files.map((file) => file.filename);
+
+		//console.log(ctx.request.body);
+		let fileNames = text.toString();
+		if (ctx.request.body.compCategory == "NEWS") {
+			fileNames = `NEWS_${fileNames}`;
+		}
+
+		//console.log(fileNames);
 		const createBody = {
 			...(createDetails && createDetails),
 			...(fileNames && { fileNames }),
 		};
-		//await componentService.create(createBody);
+		await componentService.create(createBody);
+		console.log(createBody);
 		return (ctx.body = "Component details created successfully");
 	} catch (error) {
 		throw error;
@@ -69,39 +78,32 @@ async function updateComponentDetail(ctx, next) {
 	try {
 		const updateDetails = ctx.request.body;
 		const files = ctx.request.files;
-		const fileNames = files.map((file) => file.filename);
+		const text = files.map((file) => file.filename);
+
+		//console.log(ctx.request.body);
+		let fileNames = text.toString();
 		const params = ctx.request.params;
-		const { title, compCategory, fileName, details, desc, popUp } =
-			updateDetails;
+		const { title, compCategory, details, desc, popUp } = updateDetails;
 		const updateBody = {
 			...(title && { title }),
-			...(fileName && { fileNames }),
+			...(fileNames && { fileNames }),
 			...(details && { details }),
 			...(popUp && { popUp }),
 			...(desc && { desc }),
 			...(compCategory && { compCategory }),
 		};
+
 		await componentService.updateComponents({ compId: +params.id }, updateBody);
 		return (ctx.body = "Component  details updated successfully");
 	} catch (error) {
 		throw error;
 	}
 }
-//upload file
-/**
- * updates the role of the user if user id is provided
- * @param {*} ctx
- * @param {*} next
- * @returns
- */
-async function updateFiles(ctx, next) {
+async function deleteComponentDetails(ctx, next) {
 	try {
-		// Save the file names in the database
-
-		// Return a response
-		const params = ctx.request.params;
-		await userService.fileUploadService({ compId: params.id }, fileNames);
-		return (ctx.body = "Files uploaded and saved successfully");
+		const { id } = ctx.request.params;
+		const response = await componentService.deleteComponent({ compId: +id });
+		return (ctx.body = "successfully deleted");
 	} catch (error) {
 		throw error;
 	}
@@ -111,5 +113,5 @@ module.exports = {
 	fetchComponentDetails,
 	createComponent,
 	updateComponentDetail,
-	updateFiles,
+	deleteComponentDetails,
 };
