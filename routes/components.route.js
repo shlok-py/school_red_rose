@@ -2,16 +2,20 @@ const Router = require("@koa/router");
 const componentController = require("../controllers/components.controller");
 const schemaValidate = require("../utils/schema.validation");
 const componentSchema = require("../utils/interfaces/components.interface");
+const checkCategory = require("../utils/helpers/fileCategory.helper");
 const multer = require("@koa/multer");
 const router = new Router();
 
 // Set up Multer storage and file filters
 const storage = multer.diskStorage({
-	destination: function (req, file, cb) {
-		cb(null, "public/uploads/");
-	},
 	filename: function (req, file, cb) {
-		cb(null, `${file.originalname}`);
+		category = checkCategory(req.body.compCategory);
+		//console.log(category);
+		cb(null, `${category + "_" + file.originalname} `);
+	},
+	destination: function (req, file, cb) {
+		category = checkCategory(req.body.compCategory);
+		cb(null, `${"public/uploads/" + "/" + category}`);
 	},
 });
 
@@ -45,7 +49,12 @@ router.post(
 router.patch(
 	"/:id",
 	schemaValidate(componentSchema.editComponentsSchema),
+	upload.array("fileNames", 5),
 	componentController.updateComponentDetail
 );
-
+router.delete(
+    "/:id",
+    schemaValidate(componentSchema.componentsDetailSchema),
+    componentController.deleteComponentDetails
+);
 module.exports = router.routes();
