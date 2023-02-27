@@ -89,4 +89,22 @@ async function create(componentsDetails) {
 	}
 }
 
-module.exports = { findDetail, findAll, updateComponents, create };
+/**
+ * deletes user given its id
+ * @param {{id: String}} whereKey
+ * @returns
+ */
+async function deleteComponent(whereKey) {
+	try {
+		return prisma.tblComp.delete({ where: { ...whereKey } });
+	} catch (error) {
+		throw error;
+	}
+}
+module.exports = {
+	findDetail,
+	findAll,
+	updateComponents,
+	create,
+	deleteComponent,
+};
