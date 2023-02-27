@@ -53,7 +53,7 @@ model tblComp {
   desc         String?           @db.VarChar(255)
   fileNames   String?           @db.VarChar(255)
   details     String?           @db.LongText        
-  popUp       Boolean
+  popUp       String?
   createdAt    DateTime          @default(now())
   updatedAt    DateTime          @updatedAt
 }
