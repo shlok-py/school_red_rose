@@ -6,26 +6,26 @@ const userService = require("../services/user.service");
  * @returns
  */
 async function fetchAllUsers(ctx, next) {
-    try {
-        const { limit, page, search } = ctx.request.query;
-        const response = await userService.findAll(
-            { limit: +limit, page: +page },
-            { ...(search && { search }) }
-        );
-        return (ctx.body = response);
-    } catch (error) {
-        throw error;
-    }
+	try {
+		const { limit, page, search } = ctx.request.query;
+		const response = await userService.findAll(
+			{ limit: +limit, page: +page },
+			{ ...(search && { search }) }
+		);
+		return (ctx.body = response);
+	} catch (error) {
+		throw error;
+	}
 }
 
 async function fetchUserDetail(ctx, next) {
-    try {
-        const { id } = ctx.request.params;
-        const response = await userService.findDetail({ userId: id });
-        return (ctx.body = response);
-    } catch (error) {
-        throw error;
-    }
+	try {
+		const { id } = ctx.request.params;
+		const response = await userService.findDetail({ userId: id });
+		return (ctx.body = response);
+	} catch (error) {
+		throw error;
+	}
 }
 
 /**
@@ -35,34 +35,24 @@ async function fetchUserDetail(ctx, next) {
  * @returns
  */
 async function updateUserDetail(ctx, next) {
-    try {
-        const updateDetails = ctx.request.body;
-        const params = ctx.request.params;
-        const {
-            firstName,
-            middleName,
-            lastName,
-            email,
-            faculty,
-            rollId,
-            userStatus,
-            phone,
-        } = updateDetails;
-        const updateBody = {
-            ...(email && { email }),
-            ...(firstName && { firstName }),
-            ...(middleName && { middleName }),
-            ...(lastName && { lastName }),
-            ...(faculty && { faculty }),
-            ...(rollId && { rollId }),
-            ...(userStatus && { userStatus }),
-            ...(phone && { phone, code: 977 }),
-        };
-        await userService.updateUser({ userId: params.id }, updateBody);
-        return (ctx.body = "User details updated successfully");
-    } catch (error) {
-        throw error;
-    }
+	try {
+		const updateDetails = ctx.request.body;
+		const params = ctx.request.params;
+		const { firstName, middleName, lastName, email, userStatus, phone } =
+			updateDetails;
+		const updateBody = {
+			...(email && { email }),
+			...(firstName && { firstName }),
+			...(middleName && { middleName }),
+			...(lastName && { lastName }),
+			...(userStatus && { userStatus }),
+			...(phone && { phone, countryCode: 977 }),
+		};
+		await userService.updateUser({ userId: params.id }, updateBody);
+		return (ctx.body = "User details updated successfully");
+	} catch (error) {
+		throw error;
+	}
 }
 
 /**
@@ -72,25 +62,23 @@ async function updateUserDetail(ctx, next) {
  * @returns
  */
 async function updateRole(ctx, next) {
-    try {
-        const updateDetails = ctx.request.body;
-        const params = ctx.request.params;
-        const { role } = updateDetails;
-        const updateBody = {
-            role,
-        };
-        await userService.updateUser({ userId: params.id }, updateBody);
-        return (ctx.body = "Updated role successfully");
-    } catch (error) {
-        throw error;
-    }
+	try {
+		const updateDetails = ctx.request.body;
+		const params = ctx.request.params;
+		const { role } = updateDetails;
+		const updateBody = {
+			role,
+		};
+		await userService.updateUser({ userId: params.id }, updateBody);
+		return (ctx.body = "Updated role successfully");
+	} catch (error) {
+		throw error;
+	}
 }
 
-
-
 module.exports = {
-    fetchAllUsers,
-    fetchUserDetail,
-    updateUserDetail,
-    updateRole,
+	fetchAllUsers,
+	fetchUserDetail,
+	updateUserDetail,
+	updateRole,
 };
