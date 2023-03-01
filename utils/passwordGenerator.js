@@ -6,13 +6,14 @@ const SALT_ROUNDS = 10;
  * @param {Number} passLength
  */
 function generatePassword(passLength = 12) {
-    const chars =
-        "0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*()ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    let password = "";
-    for (let i = 0; i <= passLength; i++) {
-        const randomNumber = Math.floor(Math.random() * chars.length);
-        password += chars.substring(randomNumber, randomNumber + 1);
-    }
+	const chars =
+		"0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*()ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	let password = "";
+	for (let i = 0; i <= passLength; i++) {
+		const randomNumber = Math.floor(Math.random() * chars.length);
+		password += chars.substring(randomNumber, randomNumber + 1);
+	}
+	return password;
 }
 
 /**
@@ -21,7 +22,7 @@ function generatePassword(passLength = 12) {
  * @returns {String} hashedPassword
  */
 function encryptPassword(password) {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(SALT_ROUNDS));
+	return bcrypt.hashSync(password, bcrypt.genSaltSync(SALT_ROUNDS));
 }
 
 /**
@@ -31,6 +32,6 @@ function encryptPassword(password) {
  * @returns {boolean} true if match else false
  */
 function comparePassword(passwordString, passwordHash) {
-    return bcrypt.compareSync(passwordString, passwordHash);
+	return bcrypt.compareSync(passwordString, passwordHash);
 }
 module.exports = { generatePassword, encryptPassword, comparePassword };
