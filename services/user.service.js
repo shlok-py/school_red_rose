@@ -7,21 +7,14 @@ const prisma = new PrismaClient();
  * @returns
  */
 async function findDetail(whereKey) {
-    try {
-        // find one user and return it
-        return prisma.tblUser.findUnique({
-            where: whereKey,
-            include: {
-                tranHistory: {
-                    include: {
-                        payment: true,
-                    },
-                },
-            },
-        });
-    } catch (error) {
-        throw error;
-    }
+	try {
+		// find one user and return it
+		return prisma.tblUser.findUnique({
+			where: whereKey,
+		});
+	} catch (error) {
+		throw error;
+	}
 }
 
 /**
@@ -30,45 +23,42 @@ async function findDetail(whereKey) {
  * @param {{search?:String}} filters
  */
 async function findAll(options, filters) {
-    try {
-        const whereQuery = {
-            AND: [
-                {
-                    OR: [{ role: Role.USER }, { role: Role.ADMIN }],
-                },
-                filters.search && {
-                    OR: [
-                        { firstName: { contains: filters.search } },
-                        { middleName: { contains: filters.search } },
-                        { lastName: { contains: filters.search } },
-                        { rollId: { contains: filters.search } },
-                    ],
-                },
-            ],
-        };
-        const [count, allUsers] = await prisma.$transaction([
-            prisma.tblUser.count({
-                where: whereQuery,
-            }),
-            prisma.tblUser.findMany({
-                where: whereQuery,
-                include: {
-                    credential: { select: { email: true, createdAt: true } },
-                },
-                take: options.limit,
-                skip: (options.page - 1) * options.limit,
-            }),
-        ]);
-        return {
-            page: options.page,
-            limit: options.limit,
-            data: allUsers,
-            totalData: count || 0,
-            totalPages: Math.ceil(count / options.limit),
-        };
-    } catch (error) {
-        throw error;
-    }
+	try {
+		const whereQuery = {
+			AND: [
+				filters.search && {
+					OR: [
+						{ firstName: { contains: filters.search } },
+						{ middleName: { contains: filters.search } },
+						{ lastName: { contains: filters.search } },
+						{ rollId: { contains: filters.search } },
+					],
+				},
+			],
+		};
+		const [count, allUsers] = await prisma.$transaction([
+			prisma.tblUser.count({
+				where: whereQuery,
+			}),
+			prisma.tblUser.findMany({
+				where: whereQuery,
+				include: {
+					tblCredential: { select: { email: true, createdAt: true } },
+				},
+				take: options.limit,
+				skip: (options.page - 1) * options.limit,
+			}),
+		]);
+		return {
+			page: options.page,
+			limit: options.limit,
+			data: allUsers,
+			totalData: count || 0,
+			totalPages: Math.ceil(count / options.limit),
+		};
+	} catch (error) {
+		throw error;
+	}
 }
 
 /**
@@ -77,33 +67,33 @@ async function findAll(options, filters) {
  * @returns
  */
 async function deleteUser(whereKey) {
-    try {
-        return prisma.tblUser.delete({ where: { ...whereKey } });
-    } catch (error) {
-        throw error;
-    }
+	try {
+		return prisma.tblUser.delete({ where: { ...whereKey } });
+	} catch (error) {
+		throw error;
+	}
 }
 
 /**
  * updates user information
  * @param {{userId: String}} whereKey
- * @param {{firstName?:String, middleName?:String, lastName?:String, email?: String, rollId?:String, phone?:Number, role?: String, faculty?: String, status?: String}} userDetails
+ * @param {{firstName?:String, middleName?:String, lastName?:String, email?: String, phone?:String, countryCode:Number, status?: String}} userDetails
  */
 async function updateUser(whereKey, userDetails) {
-    try {
-        const { email, ...rest } = userDetails;
-        let credentialUpdate = undefined;
-        if (email) {
-            credentialUpdate = { credential: { update: { email } } };
-        }
-        return prisma.tblUser.update({
-            where: { ...whereKey },
-            data: { ...rest, ...credentialUpdate },
-            include: { credential: !!credentialUpdate },
-        });
-    } catch (error) {
-        throw error;
-    }
+	try {
+		const { email, ...rest } = userDetails;
+		let credentialUpdate = undefined;
+		if (email) {
+			credentialUpdate = { tblCredential: { update: { email } } };
+		}
+		return prisma.tblUser.update({
+			where: { ...whereKey },
+			data: { ...rest, ...credentialUpdate },
+			include: { tblCredential: !!credentialUpdate },
+		});
+	} catch (error) {
+		throw error;
+	}
 }
 
 module.exports = { findDetail, findAll, updateUser, deleteUser };
