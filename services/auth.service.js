@@ -192,6 +192,28 @@ async function signin(userDetails) {
 		throw error;
 	}
 }
+/**
+ * forgot password service, gets email from the user and find associated userID
+ * @param {{email: String}} userDetails
+ * @returns
+ */
+async function userIDChangePassword(userDetails) {
+	//console.log(userDetails);
+	try {
+		const existingUser = await prisma.tblCredential.findUnique({
+			where: {
+				email: userDetails,
+			},
+		});
+		userId = existingUser.userId;
+
+		return { userId };
+		
+	} catch (error) {
+		console.log(error);
+		throw error;
+	}
+}
 
 /**
  * forgot password service, changes the password and returns new password
@@ -266,4 +288,5 @@ module.exports = {
 	forgotPassword,
 	googleSignin,
 	googleSignup,
+	userIDChangePassword,
 };
