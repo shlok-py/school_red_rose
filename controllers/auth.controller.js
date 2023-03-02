@@ -53,7 +53,23 @@ async function signin(ctx, next) {
 		throw err;
 	}
 }
-
+/**
+ * gets email from the user to change its password of corresponding userID
+ */
+async function userIDPassword(ctx, next) {
+	try {
+		const { email } = ctx.request.body;
+		//console.log(email);
+		if (email) {
+			return (ctx.body = await authService.userIDChangePassword(email));
+		} else {
+			return (ctx.body = "User Id not found");
+		}
+		
+	} catch (err) {
+		throw err;
+	}
+}
 /**
  * sends an email with new password
  */
@@ -106,4 +122,10 @@ async function changePassword(ctx, next) {
 	}
 }
 
-module.exports = { signin, signup, changePassword, forgotPassword };
+module.exports = {
+	signin,
+	signup,
+	changePassword,
+	userIDPassword,
+	forgotPassword,
+};
