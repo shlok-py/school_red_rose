@@ -8,7 +8,7 @@ const {
 const jwtService = require("./jwt.service");
 const emailService = require("./email.service");
 const config = require("../utils/config");
-const { USER_STATUS } = require("../constants/app.constants");
+const USER_STATUS = require("../constants/app.constants").default;
 const { v4: uuidv4 } = require("uuid");
 const ApiError = require("../utils/errorHandler");
 const status = require("http-status");
@@ -175,12 +175,15 @@ async function signin(userDetails) {
 		}
 		if (comparePassword(userDetails.password, existingUser.password)) {
 			//generate jwt and login
+			const token = jwtService.createToken(existingUser);
+
+		
 			return {
 				user: {
 					...existingUser.user,
 					createdAt: existingUser.createdAt,
 				},
-				token: jwtService.createToken(existingUser),
+				token: token,
 			};
 		} else {
 			throw new ApiError({
@@ -208,7 +211,6 @@ async function userIDChangePassword(userDetails) {
 		userId = existingUser.userId;
 
 		return { userId };
-		
 	} catch (error) {
 		console.log(error);
 		throw error;

@@ -1,4 +1,3 @@
-
 const USER_STATUS = {
     active: "active",
     closed: "closed",
@@ -13,5 +12,5 @@ const COMPONENTS_CATEGORY = [  "news",
 
 module.exports = {
     USER_STATUS,
-    COMPONENTS_CATEGORY
+	COMPONENTS_CATEGORY,
 };
