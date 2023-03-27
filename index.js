@@ -1,4 +1,5 @@
 const Koa = require("koa");
+const cors = require('@koa/cors');
 
 const { koaBody } = require("koa-body");
 const rootRouter = require("./routes/index.route");
@@ -11,7 +12,7 @@ DB();
 //Route files
 const app = new Koa();
 const PORT = config.port;
-
+app.use(cors());
 app.use(async (ctx, next) => {
 	try {
 		await next();
