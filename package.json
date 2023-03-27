@@ -44,7 +44,6 @@
 		"db:push": "npx prisma db push",
 		"db:build": "prisma generate && prisma migrate deploy",
 		"lint:fix": "npx prettier --write .",
-		"prepare": "husky install",
 		"prisma:format": "npx prisma format"
 	},
 	"repository": {
