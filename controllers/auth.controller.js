@@ -65,7 +65,6 @@ async function userIDPassword(ctx, next) {
 		} else {
 			return (ctx.body = "User Id not found");
 		}
-		
 	} catch (err) {
 		throw err;
 	}
@@ -108,7 +107,7 @@ async function changePassword(ctx, next) {
 	try {
 		const { oldPassword, newPassword, userId } = ctx.request.body;
 		// check if old password match, if not say old password don't match, else update with new password
-		const response = authService.changePassword({
+		const response = await authService.changePassword({
 			userId,
 			oldPassword,
 			newPassword,
