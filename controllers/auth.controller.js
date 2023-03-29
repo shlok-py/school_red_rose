@@ -45,7 +45,7 @@ async function signin(ctx, next) {
 		} else {
 			const { email, password } = ctx.request.body;
 			const response = await authService.signin({ email, password });
-			return (ctx.body = response);
+			return (ctx.body = { data: response, message: "Logged In Sucessfully" });
 		}
 
 		// check if user already exists, if exists check password, if password matches send token, if not password don't match message, if not user don't exist, signup
