@@ -1,5 +1,5 @@
 const Koa = require("koa");
-const cors = require('@koa/cors');
+const cors = require("@koa/cors");
 
 const { koaBody } = require("koa-body");
 const rootRouter = require("./routes/index.route");
@@ -17,6 +17,7 @@ app.use(async (ctx, next) => {
 	try {
 		await next();
 	} catch (err) {
+		console.log(err);
 		ctx.status = err.statusCode || 500;
 		ctx.body = err.message;
 		ctx.app.emit("error", err, ctx);

@@ -39,9 +39,16 @@ const editUserSchema = {
 			.optional(),
 	}),
 };
-
+const userDeleteSchema = {
+	params: Joi.object().keys({
+		id: Joi.string().required().guid(),
+	}),
+	query: {},
+	body: {},
+};
 module.exports = {
 	userDetailSchema,
 	usersListSchema,
 	editUserSchema,
+	userDeleteSchema,
 };

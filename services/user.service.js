@@ -68,7 +68,14 @@ async function findAll(options, filters) {
  */
 async function deleteUser(whereKey) {
 	try {
-		return prisma.tblUser.delete({ where: { ...whereKey } });
+		return prisma.$transaction([
+			prisma.tblCredential.delete({
+				where: whereKey,
+			}),
+			prisma.tblUser.delete({
+				where: { ...whereKey },
+			}),
+		]);
 	} catch (error) {
 		throw error;
 	}

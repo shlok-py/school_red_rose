@@ -75,10 +75,25 @@ async function updateRole(ctx, next) {
 		throw error;
 	}
 }
+async function deleteUser(ctx, next) {
+	try {
+		const { id } = ctx.request.params;
+		const response = await userService.deleteUser({ userId: id });
 
+		return (ctx.body = "successfully deleted");
+	} catch (err) {
+		const text = err.message;
+
+		ctx.status = err.statusCode || err.status || 500;
+		ctx.body = {
+			message: err.message,
+		};
+	}
+}
 module.exports = {
 	fetchAllUsers,
 	fetchUserDetail,
 	updateUserDetail,
 	updateRole,
+	deleteUser,
 };

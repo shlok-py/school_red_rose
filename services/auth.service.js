@@ -177,7 +177,6 @@ async function signin(userDetails) {
 			//generate jwt and login
 			const token = jwtService.createToken(existingUser);
 
-		
 			return {
 				user: {
 					...existingUser.user,
@@ -267,7 +266,7 @@ async function changePassword(userDetails) {
 				statusCode: status.UNAUTHORIZED,
 			});
 		}
-
+		console.log("here!!");
 		const updatedUser = await prisma.tblCredential.update({
 			where: {
 				userId: userDetails.userId,
@@ -279,6 +278,7 @@ async function changePassword(userDetails) {
 
 		return updatedUser;
 	} catch (error) {
+		// console.log(error);
 		throw error;
 	}
 }

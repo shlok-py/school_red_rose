@@ -45,7 +45,7 @@ async function signin(ctx, next) {
 		} else {
 			const { email, password } = ctx.request.body;
 			const response = await authService.signin({ email, password });
-			return (ctx.body = response);
+			return (ctx.body = { data: response, message: "Logged In Sucessfully" });
 		}
 
 		// check if user already exists, if exists check password, if password matches send token, if not password don't match message, if not user don't exist, signup
@@ -65,7 +65,6 @@ async function userIDPassword(ctx, next) {
 		} else {
 			return (ctx.body = "User Id not found");
 		}
-		
 	} catch (err) {
 		throw err;
 	}
@@ -108,7 +107,7 @@ async function changePassword(ctx, next) {
 	try {
 		const { oldPassword, newPassword, userId } = ctx.request.body;
 		// check if old password match, if not say old password don't match, else update with new password
-		const response = authService.changePassword({
+		const response = await authService.changePassword({
 			userId,
 			oldPassword,
 			newPassword,
