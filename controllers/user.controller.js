@@ -79,7 +79,6 @@ async function deleteUser(ctx, next) {
 	try {
 		const { id } = ctx.request.params;
 		const response = await userService.deleteUser({ userId: id });
-
 		return (ctx.body = "successfully deleted");
 	} catch (err) {
 		const text = err.message;
