@@ -93,7 +93,7 @@ async function deleteAlbumDetails(ctx, next) {
 		const { id } = ctx.request.params;
 		const response = await albumService.deleteAlbum({ albumId: +id });
 		return (ctx.body = "successfully deleted");
-	} catch (err) {
+	} catch (error) {
 		const text = err.message;
 
 		ctx.status = err.statusCode || err.status || 500;
@@ -112,7 +112,7 @@ async function findAlbumCategories(ctx, next) {
 			return (ctx.body = "ALbum not found");
 		}
 	} catch (err) {
-		const text = err.message;
+		const text = error.message;
 
 		ctx.status = err.statusCode || err.status || 500;
 		ctx.body = {
