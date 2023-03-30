@@ -51,9 +51,32 @@ model tblComp {
   compCategory ComponentCategory
   title        String?           @db.VarChar(255)
   desc         String?           @db.VarChar(255)
-  fileNames   String?           @db.VarChar(255)
-  details     String?           @db.LongText        
-  popUp       String?
+  fileNames    String?           @db.LongText
+  details      String?           @db.LongText
+  popUp        String?
   createdAt    DateTime          @default(now())
   updatedAt    DateTime          @updatedAt
 }
+
+model tblAlbum {
+  albumId    Int      @id @default(autoincrement())
+  albumName String?   @db.VarChar(255)
+  desc      String?   @db.VarChar(255)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  tblPhoto  tblPhoto[]
+}
+
+model tblPhoto {
+  photoId   Int      @id @default(autoincrement())
+  album     tblAlbum @relation(fields: [albumId], references: [albumId])
+  albumId   Int   @db.Int
+ 
+  fileNames String?  @db.LongText
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([albumId])
+}
+
