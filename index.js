@@ -7,6 +7,8 @@ const DB = require("./db");
 const { changePasswordSchema } = require("./utils/interfaces/auth.interface");
 const schemaValidate = require("./utils/schema.validation");
 const config = require("./utils/config");
+const { checkIfDbError, handleDbError } = require("./utils/errorDbHandler");
+
 DB();
 
 //Route files
@@ -16,11 +18,20 @@ app.use(cors());
 app.use(async (ctx, next) => {
 	try {
 		await next();
-	} catch (err) {
-		console.log(err);
-		ctx.status = err.statusCode || 500;
-		ctx.body = err.message;
-		ctx.app.emit("error", err, ctx);
+	} catch (e) {
+		if (checkIfDbError(e)) {
+			console.log(e.code, e.meta.cause);
+
+			const errorDetail = handleDbError(e);
+			console.log(errorDetail);
+			ctx.status = errorDetail?.statusCode || 500;
+			ctx.body = errorDetail?.message;
+			ctx.app.emit("error", e, ctx);
+		} else {
+			ctx.status = e.statusCode || 500;
+			ctx.body = e.meta.cause;
+			ctx.app.emit("error", e, ctx);
+		}
 	}
 });
 app.use(koaBody());
