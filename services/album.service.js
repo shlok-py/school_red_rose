@@ -128,7 +128,7 @@ async function findAlbumCategories(whereKey) {
 		});
 		return allAlbum;
 	} catch (error) {
-		throw error;
+		return "Id not found";
 	}
 }
 module.exports = {
