@@ -36,7 +36,7 @@ const createPhotoSchema = {
 	params: {},
 	query: {},
 	body: Joi.object().keys({
-		fileNames: Joi.string().required(),
+		fileNames: Joi.array().required(),
 		albumId: Joi.number().required(),
 	}),
 };
