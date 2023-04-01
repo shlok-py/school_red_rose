@@ -105,12 +105,14 @@ async function forgotPassword(ctx, next) {
  */
 async function changePassword(ctx, next) {
 	try {
-		const { oldPassword, newPassword, userId } = ctx.request.body;
+		const { oldPassword, newPassword, userId, confirmNewPassword } =
+			ctx.request.body;
 		// check if old password match, if not say old password don't match, else update with new password
 		const response = await authService.changePassword({
 			userId,
 			oldPassword,
 			newPassword,
+			confirmNewPassword,
 		});
 		return (ctx.body = "password updated successfully");
 	} catch (err) {

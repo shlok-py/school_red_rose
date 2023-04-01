@@ -29,7 +29,7 @@ app.use(async (ctx, next) => {
 			ctx.app.emit("error", e, ctx);
 		} else {
 			ctx.status = e.statusCode || 500;
-			ctx.body = e.meta.cause;
+			ctx.body = e.message;
 			ctx.app.emit("error", e, ctx);
 		}
 	}

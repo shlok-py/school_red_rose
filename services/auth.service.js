@@ -251,7 +251,7 @@ async function forgotPassword(userDetails) {
 
 /**
  * updates new password if old one matches
- * @param {{userId: String,oldPassword: String, newPassword: String}} userDetails
+ * @param {{userId: String,oldPassword: String, newPassword: String,confirmNewPassword:String}} userDetails
  * @returns
  */
 async function changePassword(userDetails) {
@@ -266,7 +266,13 @@ async function changePassword(userDetails) {
 				statusCode: status.UNAUTHORIZED,
 			});
 		}
-		console.log("here!!");
+		console.log(userDetails.confirmNewPassword === userDetails.newPassword);
+		if (!(userDetails.confirmNewPassword === userDetails.newPassword)) {
+			throw new ApiError({
+				message: "Confirm password does not match",
+				statusCode: status.UNAUTHORIZED,
+			});
+		}
 		const updatedUser = await prisma.tblCredential.update({
 			where: {
 				userId: userDetails.userId,

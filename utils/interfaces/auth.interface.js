@@ -37,6 +37,7 @@ const changePasswordSchema = {
 		userId: Joi.string().required().guid(),
 		oldPassword: Joi.string().required(),
 		newPassword: Joi.string().required(),
+		confirmNewPassword: Joi.string().required(),
 	}),
 };
 const getEmailSchema = {
