@@ -45,7 +45,7 @@ async function findAll(options, filters) {
 					tblPhoto: {
 						select: {
 							photoId: true,
-							photoName: true,
+
 							fileNames: true,
 							createdAt: true,
 						},
