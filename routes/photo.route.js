@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
 		const fName = uuidv4();
 
 		const ext = file.originalname.split(".").pop();
-		cb(null, `${"_" + fName + "." + ext} `);
+		cb(null, `${"_" + fName + "." + ext}`);
 	},
 	destination: function (req, file, cb) {
 		cb(null, `${"public/uploads/" + "/"}`);
