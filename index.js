@@ -1,6 +1,7 @@
 const Koa = require("koa");
 const cors = require("@koa/cors");
-
+const serve = require("koa-static");
+const path = require("path");
 const { koaBody } = require("koa-body");
 const rootRouter = require("./routes/index.route");
 const DB = require("./db");
@@ -47,7 +48,8 @@ console.log(
 		newPassword: "123",
 	})
 );
-
+app.use(serve(path.join(__dirname, "/public", "/uploads")));
+console.log(path.join(__dirname, "/public", "/uploads"));
 app.listen(PORT, () => {
-	console.log("Server running at: http://localhost:" + PORT);
+	// console.log("Server running at: http://localhost:" + PORT);
 });
