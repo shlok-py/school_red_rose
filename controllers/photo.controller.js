@@ -47,11 +47,11 @@ async function createPhoto(ctx, next) {
 		//console.log(ctx.request);
 		const { albumId } = ctx.request.body;
 		const fileNames = ctx.request.files;
-
+		
 		const fileN = fileNames.map((eachFile) => {
 			return { albumId: +albumId, fileNames: eachFile.filename };
 		});
-		// console.log(fileNames);
+		 console.log(fileNames);
 
 		await photoService.create(fileN);
 		// console.log(createBody);
