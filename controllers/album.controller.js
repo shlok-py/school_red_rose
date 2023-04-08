@@ -93,12 +93,13 @@ async function deleteAlbumDetails(ctx, next) {
 		const { id } = ctx.request.params;
 		const response = await albumService.deleteAlbum({ albumId: +id });
 		return (ctx.body = "successfully deleted");
-	} catch (error) {
-		const text = err.message;
+	} catch (err) {
+		// console.log(err.meta.cause);
+		const text = err.meta.cause;
 
 		ctx.status = err.statusCode || err.status || 500;
 		ctx.body = {
-			message: err.message,
+			message: text,
 		};
 	}
 }

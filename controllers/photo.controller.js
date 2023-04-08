@@ -47,11 +47,11 @@ async function createPhoto(ctx, next) {
 		//console.log(ctx.request);
 		const { albumId } = ctx.request.body;
 		const fileNames = ctx.request.files;
-		
+
 		const fileN = fileNames.map((eachFile) => {
 			return { albumId: +albumId, fileNames: eachFile.filename };
 		});
-		 console.log(fileNames);
+		//  console.log(fileNames);
 
 		await photoService.create(fileN);
 		// console.log(createBody);
@@ -94,12 +94,12 @@ async function deletePhoto(ctx, next) {
 		const { id } = ctx.request.params;
 		const response = await photoService.deletePhoto({ photoId: +id });
 		return (ctx.body = "successfully deleted");
-	} catch (error) {
-		const text = err.message;
+	} catch (err) {
+		const text = err.meta.cause;
 
 		ctx.status = err.statusCode || err.status || 500;
 		ctx.body = {
-			message: err.message,
+			message: text,
 		};
 	}
 }
