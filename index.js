@@ -49,7 +49,7 @@ console.log(
 	})
 );
 app.use(serve(path.join(__dirname, "/public", "/uploads")));
-console.log(path.join(__dirname, "/public", "/uploads"));
+// console.log(path.join(__dirname, "/public", "/uploads"));
 app.listen(PORT, () => {
 	// console.log("Server running at: http://localhost:" + PORT);
 });
