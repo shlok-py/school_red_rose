@@ -76,7 +76,7 @@ async function updateComponents(whereKey, componentsDetails) {
 
 /**
  * creates  item
- * @param {{title?: String, fileNames?: String, popUp?: Boolean, details?:String,desc?: String,imageName?: String, compCategory?: ComponentCategory}} componentsDetails
+ * @param {{title?: String,  popUp?: Boolean,desc?: String,compCategory?: ComponentCategory}} componentsDetails
  * @returns
  */
 async function create(componentsDetails) {

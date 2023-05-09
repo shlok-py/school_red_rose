@@ -46,19 +46,9 @@ async function createComponent(ctx, next) {
 	try {
 		//console.log(ctx.request);
 		const createDetails = ctx.request.body;
-		const files = ctx.request.files;
-		const text = files.map((file) => file.filename);
 
-		//console.log(ctx.request.body);
-		let fileNames = text.toString();
-		if (ctx.request.body.compCategory == "NEWS") {
-			fileNames = `NEWS_${fileNames}`;
-		}
-
-		//console.log(fileNames);
 		const createBody = {
 			...(createDetails && createDetails),
-			...(fileNames && { fileNames }),
 		};
 		await componentService.create(createBody);
 		console.log(createBody);
